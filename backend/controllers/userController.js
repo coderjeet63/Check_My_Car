@@ -23,26 +23,17 @@ const userController = {
       const newUser = new User({ username, email, password });
       await newUser.save();
 
-      // ### FIX 1: TOKEN GENERATION STANDARDIZED ###
-      // Ab yeh waisa hi token banayega jaisa login function banata hai.
-      // Ismein `userId`, `isAdmin`, aur `isMechanic` shaamil hai taaki frontend
-      // aur middleware isko sahi se use kar sakein.
       const token = jwt.sign(
         {
           userId: newUser._id,
-          isAdmin: newUser.isAdmin, // Shuru mein false hoga
-          isMechanic: newUser.isMechanic, // Shuru mein false hoga
+          isAdmin: newUser.isAdmin,
+          isMechanic: newUser.isMechanic,
         },
         secretKey,
         {
           expiresIn: "1h",
         }
       );
-
-      // ### FIX 2: UNNECESSARY CODE REMOVED ###
-      // Niche di gayi `jwt.verify` ki line ki yahan koi zaroorat nahi thi.
-      // Humne abhi abhi token banaya hai, use turant verify karne ka koi fayda nahi.
-      // const decoded = jwt.verify(token, secretKey);
 
       res.status(201).json({ message: "User registered successfully", token });
     } catch (error) {
@@ -57,10 +48,11 @@ const userController = {
   // LOGIN FUNCTION
   // ==========================================================
   login: async (req, res) => {
-    // ### DEBUGGING TOOL ADDED ###
-    // Agar ab bhi 403 error aaye, to is line ko uncomment karke deploy karein
-    // aur Render ke logs mein check karein ki server kaun si key use kar raha hai.
-    // console.log("SERVER IS USING THIS SECRET KEY:", secretKey);
+    // ==========================================================
+    // !!! FINAL TEST: YEH LINE UNCOMMENT KAR DI GAYI HAI !!!
+    // Ab server apne logs mein secret key print karega.
+    console.log("SERVER IS USING THIS SECRET KEY:", secretKey);
+    // ==========================================================
 
     try {
       const { username, password } = req.body;
@@ -79,7 +71,6 @@ const userController = {
           .json({ message: "Invalid username or password" });
       }
 
-      // Yeh token generation pehle se sahi tha.
       const token = jwt.sign(
         {
           userId: user._id,
@@ -90,7 +81,6 @@ const userController = {
         { expiresIn: "1h" }
       );
 
-      // Yeh hissa optional hai, but a good practice to keep track of tokens.
       user.tokens = user.tokens.concat({ token });
       await user.save();
 
@@ -106,11 +96,8 @@ const userController = {
   // ==========================================================
   // GET USER PROFILE FUNCTION
   // ==========================================================
-  // Is function mein koi badlaav nahi, yeh ab sahi se kaam karega kyunki
-  // register aur login dono `userId` wala token denge.
   getUserProfile: async (req, res) => {
     try {
-      // req.user.userId ab hamesha milega, chahe user ne register kiya ho ya login.
       const user = await User.findById(req.user.userId)
         .select("-password")
         .populate({
@@ -126,14 +113,13 @@ const userController = {
         return res.status(404).json({ message: "User not found" });
       }
       res.status(200).json(user);
-    } catch (error) {
+    } catch (error)      {
       console.error("Error fetching user profile:", error);
       res.status(500).json({ message: "Server Error" });
     }
   },
 
-  // ... baaki ke functions (unmein koi badlaav ki zaroorat nahi) ...
-
+  // ... baaki ke functions ...
   updateUserProfile: async (req, res) => {
     try {
       const { username, email } = req.body;
