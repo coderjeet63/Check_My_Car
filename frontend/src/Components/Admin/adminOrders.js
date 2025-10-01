@@ -16,7 +16,7 @@ const AdminOrders = () => {
           return;
         }
 
-        const response = await axios.get("http://localhost:3000/api/orders", {
+        const response = await axios.get("https://check-my-car.onrender.com/api/orders", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -35,7 +35,7 @@ const AdminOrders = () => {
     try {
       const token = localStorage.getItem("authToken");
       const response = await axios.put(
-        `http://localhost:3000/api/orders/${orderId}`,
+        `https://check-my-car.onrender.com/api/orders/${orderId}`,
         { status: newStatus },
         {
           headers: {
@@ -58,7 +58,7 @@ const AdminOrders = () => {
   const handleDeleteOrder = async (orderId) => {
     try {
       const token = localStorage.getItem("authToken");
-      await axios.delete(`http://localhost:3000/api/orders/${orderId}`, {
+      await axios.delete(`https://check-my-car.onrender.com/api/orders/${orderId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

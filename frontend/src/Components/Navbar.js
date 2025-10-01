@@ -19,13 +19,13 @@ const Navbar = () => {
     const fetchUserProfile = async () => {
       try {
         const token = localStorage.getItem("authToken");
-        const res = await axios.get("http://localhost:3000/api/users/profile", {
+        const res = await axios.get("https://check-my-car.onrender.com/api/users/profile", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         if (res.data.profileImage) {
-          const imageUrl = `http://localhost:3000${res.data.profileImage}`;
+          const imageUrl = `https://check-my-car.onrender.com${res.data.profileImage}`;
           setProfileImage(imageUrl);
         }
         setUsername(res.data.username);

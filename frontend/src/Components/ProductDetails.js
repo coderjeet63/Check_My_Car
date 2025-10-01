@@ -15,7 +15,7 @@ const ProductDetails = () => {
     const fetchProduct = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/products/${id}`
+          `https://check-my-car.onrender.com/api/products/${id}`
         );
         const data = await response.json();
         setProduct(data);
@@ -49,7 +49,7 @@ const ProductDetails = () => {
           {/* Left Side - Product Image */}
           <div className="w-full md:w-1/2">
             <img
-              src={`http://localhost:3000${product.image}`}
+              src={`https://check-my-car.onrender.com${product.image}`}
               alt={product.title}
               className="object-cover mx-auto"
               style={{ maxWidth: "100%", height: "auto" }}

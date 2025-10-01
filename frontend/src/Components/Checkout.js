@@ -43,7 +43,7 @@ const CheckoutForm = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/create-payment-intent",
+        "https://check-my-car.onrender.com/api/create-payment-intent",
         {
           amount: totalAmount * 100,
         }
@@ -89,7 +89,7 @@ const CheckoutForm = () => {
 
           try {
             const orderResponse = await axios.post(
-              "http://localhost:3000/api/orders",
+              "https://check-my-car.onrender.com/api/orders",
               orderData,
               {
                 headers: {

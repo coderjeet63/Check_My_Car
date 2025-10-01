@@ -20,7 +20,7 @@ const AdminServices = () => {
           return;
         }
 
-        const response = await axios.get("http://localhost:3000/api/services", {
+        const response = await axios.get("https://check-my-car.onrender.com/api/services", {
           headers: {
             Authorization: `Bearer ${token}`, // Include token in the Authorization header
           },
@@ -68,7 +68,7 @@ const AdminServices = () => {
 
       if (editingServiceId) {
         const response = await axios.put(
-          `http://localhost:3000/api/services/${editingServiceId}`,
+          `https://check-my-car.onrender.com/api/services/${editingServiceId}`,
           newService,
           config
         );
@@ -81,7 +81,7 @@ const AdminServices = () => {
         alert("Service updated successfully!");
       } else {
         const response = await axios.post(
-          "http://localhost:3000/api/services",
+          "https://check-my-car.onrender.com/api/services",
           newService,
           config
         );
@@ -117,7 +117,7 @@ const AdminServices = () => {
         return;
       }
 
-      await axios.delete(`http://localhost:3000/api/services/${serviceId}`, {
+      await axios.delete(`https://check-my-car.onrender.com/api/services/${serviceId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

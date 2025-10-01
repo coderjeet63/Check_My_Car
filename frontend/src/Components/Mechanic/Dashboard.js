@@ -21,7 +21,7 @@ const MechanicDashboard = () => {
         console.log("Fetching appointments for mechanic:", mechanicId);
 
         const response = await axios.get(
-          `http://localhost:3000/api/appointments/mechanic/${mechanicId}`,
+          `https://check-my-car.onrender.com/api/appointments/mechanic/${mechanicId}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("authToken")}`,
@@ -43,7 +43,7 @@ const MechanicDashboard = () => {
       const token = localStorage.getItem("authToken");
 
       await axios.put(
-        `http://localhost:3000/api/appointments/${appointmentId}/update-status`,
+        `https://check-my-car.onrender.com/api/appointments/${appointmentId}/update-status`,
         { status: newStatus },
         {
           headers: { Authorization: `Bearer ${token}` },

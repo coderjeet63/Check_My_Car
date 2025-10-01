@@ -13,10 +13,10 @@ const AdminAppointments = () => {
         const token = localStorage.getItem("authToken");
 
         const [appointmentsResponse, mechanicsResponse] = await Promise.all([
-          axios.get("http://localhost:3000/api/appointments", {
+          axios.get("https://check-my-car.onrender.com/api/appointments", {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get("http://localhost:3000/api/users", {
+          axios.get("https://check-my-car.onrender.com/api/users", {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);
@@ -55,7 +55,7 @@ const AdminAppointments = () => {
 
       const token = localStorage.getItem("authToken");
       const response = await axios.put(
-        `http://localhost:3000/api/appointments/${appointmentId}/assign`,
+        `https://check-my-car.onrender.com/api/appointments/${appointmentId}/assign`,
         { mechanicId },
         {
           headers: { Authorization: `Bearer ${token}` },

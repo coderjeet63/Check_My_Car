@@ -34,7 +34,7 @@ const AppointmentForm = () => {
         // const decodedToken = jwtDecode(token);
 
         // Include the token in the Authorization header
-        const response = await axios.get("http://localhost:3000/api/services", {
+        const response = await axios.get("https://check-my-car.onrender.com/api/services", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -56,7 +56,7 @@ const AppointmentForm = () => {
   const handleServiceAndDateChange = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/appointments/check-availability`,
+        `https://check-my-car.onrender.com/api/appointments/check-availability`,
         {
           params: {
             service: formData.service,
@@ -165,7 +165,7 @@ const AppointmentForm = () => {
       });
 
       const res = await axiosInstance.post(
-        "http://localhost:3000/api/appointments",
+        "https://check-my-car.onrender.com/api/appointments",
         appointmentData
       );
       console.log(res.data);

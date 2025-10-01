@@ -25,13 +25,13 @@ const Profile = ({ onProfileImageUpdate }) => {
           return;
         }
 
-        const res = await axios.get("http://localhost:3000/api/users/profile", {
+        const res = await axios.get("https://check-my-car.onrender.com/api/users/profile", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
         if (res.data) {
           const imageUrl = res.data.profileImage
-            ? `http://localhost:3000${res.data.profileImage}`
+            ? `https://check-my-car.onrender.com${res.data.profileImage}`
             : null;
           setUser(res.data);
           setFormData({
@@ -76,7 +76,7 @@ const Profile = ({ onProfileImageUpdate }) => {
 
     try {
       const res = await axios.put(
-        "http://localhost:3000/api/users/profile",
+        "https://check-my-car.onrender.com/api/users/profile",
         data,
         {
           headers: {
@@ -85,7 +85,7 @@ const Profile = ({ onProfileImageUpdate }) => {
         }
       );
       if (res.data) {
-        const imageUrl = `http://localhost:3000${res.data.profileImage}`;
+        const imageUrl = `https://check-my-car.onrender.com${res.data.profileImage}`;
         setUser({ ...res.data, profileImage: imageUrl });
         setFormData({ ...formData, profileImage: imageUrl });
         alert("Profile updated successfully!");
@@ -118,7 +118,7 @@ const Profile = ({ onProfileImageUpdate }) => {
       )
     ) {
       try {
-        await axios.delete("http://localhost:3000/api/users/profile", {
+        await axios.delete("https://check-my-car.onrender.com/api/users/profile", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("authToken")}`,
           },

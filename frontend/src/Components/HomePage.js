@@ -16,7 +16,7 @@ const HomePage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/products");
+        const response = await fetch("https://check-my-car.onrender.com/api/products");
         const data = await response.json();
         setFeaturedProducts(data.slice(0, 4)); // Get the first four products
       } catch (error) {
@@ -49,7 +49,7 @@ const HomePage = () => {
               id={product._id}
               title={product.title}
               price={product.price}
-              image={`http://localhost:3000${product.image}`} // Correctly referencing the image path
+              image={`https://check-my-car.onrender.com${product.image}`} // Correctly referencing the image path
               onAddToCart={() => onAddToCart(product)}
             />
           ))}

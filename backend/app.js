@@ -14,9 +14,10 @@ const authenticateAdmin = require("./middleware/adminAuthMiddleware");
 
 // CORS setup
 const corsOptions = {
-  origin: "http://localhost:3001", // frontend URL
-  optionsSuccessStatus: 200,
+  origin: '*', // allow all origins
+  optionsSuccessStatus: 200, // for legacy browsers
 };
+
 app.use(cors(corsOptions));
 
 // Body parser setup

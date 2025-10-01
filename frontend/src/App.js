@@ -86,7 +86,7 @@ function App() {
         if (!token) return;
 
         const response = await axios.get(
-          "http://localhost:3000/api/users/profile",
+          "https://check-my-car.onrender.com/api/users/profile",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -96,7 +96,7 @@ function App() {
           setUsername(response.data.username);
           if (response.data.profileImage) {
             setProfileImage(
-              `http://localhost:3000${response.data.profileImage}`
+              `https://check-my-car.onrender.com${response.data.profileImage}`
             );
           }
         }

@@ -45,7 +45,7 @@ const Cart = () => {
                 <td className="border px-4 py-2 text-center">{item.title}</td>
                 <td className="border px-4 py-2 text-center">
                   <img
-                    src={`http://localhost:3000${item.image}`} // Adjusted the image source to fetch from the backend
+                    src={`https://check-my-car.onrender.com${item.image}`} // Adjusted the image source to fetch from the backend
                     alt={item.title}
                     className="w-12 h-12 object-cover"
                   />

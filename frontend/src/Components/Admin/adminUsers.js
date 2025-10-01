@@ -14,7 +14,7 @@ const AdminUsers = () => {
           return;
         }
 
-        const response = await axios.get("http://localhost:3000/api/users", {
+        const response = await axios.get("https://check-my-car.onrender.com/api/users", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -33,7 +33,7 @@ const AdminUsers = () => {
   const handleRoleChange = async (userId, isAdmin, isMechanic) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/users/updateRole",
+        "https://check-my-car.onrender.com/api/users/updateRole",
         {
           userId,
           isAdmin,

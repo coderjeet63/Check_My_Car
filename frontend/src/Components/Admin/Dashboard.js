@@ -18,13 +18,13 @@ const Dashboard = () => {
 
         const [usersResponse, appointmentsResponse, ordersResponse] =
           await Promise.all([
-            axios.get("http://localhost:3000/api/users", {
+            axios.get("https://check-my-car.onrender.com/api/users", {
               headers: { Authorization: `Bearer ${token}` },
             }),
-            axios.get("http://localhost:3000/api/appointments", {
+            axios.get("https://check-my-car.onrender.com/api/appointments", {
               headers: { Authorization: `Bearer ${token}` },
             }),
-            axios.get("http://localhost:3000/api/orders", {
+            axios.get("https://check-my-car.onrender.com/api/orders", {
               headers: { Authorization: `Bearer ${token}` },
             }),
           ]);

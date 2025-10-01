@@ -20,7 +20,7 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:3000/api/contact', formData);
+      const res = await axios.post('https://check-my-car.onrender.com/api/contact', formData);
       if (res.data.success) {
         setMessage('Your message has been sent successfully!');
         setFormData({ name: '', email: '', message: '' });

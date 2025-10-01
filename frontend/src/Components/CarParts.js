@@ -17,7 +17,7 @@ const CarParts = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/products"); // Fetch products from your backend
+      const response = await axios.get("https://check-my-car.onrender.com/api/products"); // Fetch products from your backend
       setProducts(response.data);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -52,7 +52,7 @@ const CarParts = () => {
             <div className="bg-white shadow-md rounded overflow-hidden">
               <a href={`/product/${product._id}`}>
                 <img
-                  src={`http://localhost:3000${product.image}`}
+                  src={`https://check-my-car.onrender.com${product.image}`}
                   alt={product.title}
                   className="w-full h-64 object-cover"
                 />

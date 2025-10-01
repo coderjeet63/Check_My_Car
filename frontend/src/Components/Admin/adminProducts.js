@@ -19,7 +19,7 @@ const AdminProducts = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/api/products");
+      const response = await axios.get("https://check-my-car.onrender.com/api/products");
       setProducts(response.data);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -50,7 +50,7 @@ const AdminProducts = () => {
       if (editMode) {
         // Update existing product
         await axios.put(
-          `http://localhost:3000/api/products/${editingProductId}`,
+          `https://check-my-car.onrender.com/api/products/${editingProductId}`,
           formDataToSend,
           {
             headers: {
@@ -60,7 +60,7 @@ const AdminProducts = () => {
         );
       } else {
         // Create new product
-        await axios.post("http://localhost:3000/api/products", formDataToSend, {
+        await axios.post("https://check-my-car.onrender.com/api/products", formDataToSend, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -86,7 +86,7 @@ const AdminProducts = () => {
 
   const handleDeleteProduct = async (productId) => {
     try {
-      await axios.delete(`http://localhost:3000/api/products/${productId}`);
+      await axios.delete(`https://check-my-car.onrender.com/api/products/${productId}`);
       fetchProducts();
     } catch (error) {
       console.error("Error deleting product:", error);
