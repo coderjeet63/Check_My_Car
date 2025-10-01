@@ -12,6 +12,15 @@ const db = require("./conn/conn"); // Import your database connection file
 const authenticateToken = require("./middleware/authMiddleware");
 const authenticateAdmin = require("./middleware/adminAuthMiddleware");
 
+app.use((req, res, next) => {
+  console.log('---------------------------------');
+  console.log(`INCOMING REQUEST METHOD: ${req.method}`);
+  console.log(`INCOMING REQUEST PATH: ${req.path}`);
+  console.log(`INCOMING REQUEST ORIGIN: ${req.headers.origin}`);
+  console.log('---------------------------------');
+  next();
+});
+
 // ==========================================================
 // ### CORRECT CORS SETUP ###
 // ==========================================================
