@@ -7,7 +7,7 @@ const {
   updateProduct,
   deleteProduct,
   upload, // Import the multer upload middleware
-} = require("../controllers/productController");
+} = require("../controllers/ProductController");
 
 router.get("/", getProducts);
 router.get("/:id", getProductById);
