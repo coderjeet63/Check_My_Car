@@ -4,11 +4,13 @@ const jwt = require("jsonwebtoken");
 const { secretKey } = require("../config");
 
 const userController = {
+  // ==========================================================
+  // REGISTER FUNCTION
+  // ==========================================================
   register: async (req, res) => {
     try {
-      const { username, email, password } = req.body;  
+      const { username, email, password } = req.body;
 
-      // Check if the username or email already exists in the database
       const existingUser = await User.findOne({
         $or: [{ username }, { email }],
       });
@@ -18,16 +20,29 @@ const userController = {
           .json({ message: "Username or email already exists" });
       }
 
-      // Create a new user document with the hashed password
       const newUser = new User({ username, email, password });
       await newUser.save();
 
-      // Generate JWT token for the newly registered user using newUser._id
-      const token = jwt.sign({ _id: newUser._id.toString() }, secretKey, {
-        expiresIn: "1h",
-      });
+      // ### FIX 1: TOKEN GENERATION STANDARDIZED ###
+      // Ab yeh waisa hi token banayega jaisa login function banata hai.
+      // Ismein `userId`, `isAdmin`, aur `isMechanic` shaamil hai taaki frontend
+      // aur middleware isko sahi se use kar sakein.
+      const token = jwt.sign(
+        {
+          userId: newUser._id,
+          isAdmin: newUser.isAdmin, // Shuru mein false hoga
+          isMechanic: newUser.isMechanic, // Shuru mein false hoga
+        },
+        secretKey,
+        {
+          expiresIn: "1h",
+        }
+      );
 
-      const decoded = jwt.verify(token, secretKey);
+      // ### FIX 2: UNNECESSARY CODE REMOVED ###
+      // Niche di gayi `jwt.verify` ki line ki yahan koi zaroorat nahi thi.
+      // Humne abhi abhi token banaya hai, use turant verify karne ka koi fayda nahi.
+      // const decoded = jwt.verify(token, secretKey);
 
       res.status(201).json({ message: "User registered successfully", token });
     } catch (error) {
@@ -38,32 +53,33 @@ const userController = {
     }
   },
 
+  // ==========================================================
+  // LOGIN FUNCTION
+  // ==========================================================
   login: async (req, res) => {
+    // ### DEBUGGING TOOL ADDED ###
+    // Agar ab bhi 403 error aaye, to is line ko uncomment karke deploy karein
+    // aur Render ke logs mein check karein ki server kaun si key use kar raha hai.
+    // console.log("SERVER IS USING THIS SECRET KEY:", secretKey);
+
     try {
       const { username, password } = req.body;
 
-      // Find the user by username
       const user = await User.findOne({ username });
       if (!user) {
-        console.log("User not found");
         return res
           .status(401)
           .json({ message: "Invalid username or password" });
       }
 
-      console.log("User found:", user);
-
-      // Check if the provided password matches the stored password
       const isPasswordValid = await bcrypt.compare(password, user.password);
-      console.log("Password valid:", isPasswordValid);
-
       if (!isPasswordValid) {
         return res
           .status(401)
           .json({ message: "Invalid username or password" });
       }
 
-      // Generate a new JWT token
+      // Yeh token generation pehle se sahi tha.
       const token = jwt.sign(
         {
           userId: user._id,
@@ -74,7 +90,7 @@ const userController = {
         { expiresIn: "1h" }
       );
 
-      // Add the token to the tokens array in the user document
+      // Yeh hissa optional hai, but a good practice to keep track of tokens.
       user.tokens = user.tokens.concat({ token });
       await user.save();
 
@@ -87,17 +103,23 @@ const userController = {
     }
   },
 
+  // ==========================================================
+  // GET USER PROFILE FUNCTION
+  // ==========================================================
+  // Is function mein koi badlaav nahi, yeh ab sahi se kaam karega kyunki
+  // register aur login dono `userId` wala token denge.
   getUserProfile: async (req, res) => {
     try {
+      // req.user.userId ab hamesha milega, chahe user ne register kiya ho ya login.
       const user = await User.findById(req.user.userId)
         .select("-password")
         .populate({
           path: "orders",
-          populate: { path: "products.product" }, // Adjust based on your schema
+          populate: { path: "products.product" },
         })
         .populate({
           path: "appointments",
-          populate: { path: "service" }, // Adjust based on your schema
+          populate: { path: "service" },
         });
 
       if (!user) {
@@ -109,6 +131,8 @@ const userController = {
       res.status(500).json({ message: "Server Error" });
     }
   },
+
+  // ... baaki ke functions (unmein koi badlaav ki zaroorat nahi) ...
 
   updateUserProfile: async (req, res) => {
     try {
@@ -144,11 +168,10 @@ const userController = {
       res.status(500).json({ message: "Server Error" });
     }
   },
+  
   getAllUsers: async (req, res) => {
     try {
-      console.log("Fetching all users..."); // Debug log
       const users = await User.find().select("-password");
-      console.log("Users fetched:", users); // Debug log
       res.status(200).json(users);
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -156,17 +179,13 @@ const userController = {
     }
   },
 
-  // New: Update user roles (Admin/Mechanic)
   updateUserRole: async (req, res) => {
     const { userId, isAdmin, isMechanic } = req.body;
-
     try {
       const user = await User.findById(userId);
       if (!user) return res.status(404).json({ message: "User not found" });
-
       user.isAdmin = isAdmin;
       user.isMechanic = isMechanic;
-
       await user.save();
       res.status(200).json(user);
     } catch (error) {
