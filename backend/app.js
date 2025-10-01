@@ -12,13 +12,29 @@ const db = require("./conn/conn"); // Import your database connection file
 const authenticateToken = require("./middleware/authMiddleware");
 const authenticateAdmin = require("./middleware/adminAuthMiddleware");
 
-// CORS setup
+// ==========================================================
+// ### CORRECT CORS SETUP ###
+// ==========================================================
+// Woh saare URLs jinko aap permission dena chahte hain
+const allowedOrigins = [
+  'http://localhost:3001', // Common local port for React
+  'https://check-my-car-frontend.onrender.com' // Aapka live frontend
+];
+
 const corsOptions = {
-  origin: '*', // allow all origins
-  optionsSuccessStatus: 200, // for legacy browsers
+  origin: function (origin, callback) {
+    // Agar request allowedOrigins wali list mein hai, to use allow karo
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      // Agar request kahin aur se aa rahi hai, to use block karo
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
 };
 
 app.use(cors(corsOptions));
+// ==========================================================
 
 // Body parser setup
 app.use(bodyParser.json());
